@@ -31,6 +31,16 @@ var imagePathArray = [
 	"img/singapour.gif"
 ];
 
+// date format : year, month, day, hour, minute
+var dateArray = [
+	new Date(Date.UTC(2019, 2, 21, 20, 30)),
+	new Date(Date.UTC(2019, 3, 1, 10, 00)),
+	new Date(Date.UTC(2019, 4, 2, 9, 00)),
+	new Date(Date.UTC(2019, 3, 15, 2, 15)),
+	new Date(Date.UTC(2019, 5, 25, 23, 23)),
+	new Date(Date.UTC(2019, 1, 12, 15, 49))
+];
+
 var dureeArray = [
 	"10 minutes", 
 	"4 jours", 

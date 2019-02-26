@@ -213,7 +213,7 @@
 
 	// chargement des paramètres passés dans l'URL - travaillant sous Safari, je n'ai pas accès à URLSearchParams.entries()
 	var URL = window.location.href.replace(/%20/g," ");
-	var URLParams = URL.substring(URL.indexOf('?') + 1, URL.length).split('&');
+	var URLParams = URL.substring(URL.indexOf('?') + 1, URL.length).split('&'); // split de l'ensemble des args accessibles après le caractètre '?' dans l'URL
 
 	for(var i = 0 ; i < URLParams.length ; i++)
 		URLParams[i] = URLParams[i].split('=');

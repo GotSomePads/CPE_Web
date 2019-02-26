@@ -28,6 +28,33 @@ body{
 }
 
 /* ====================================================================================== */
+/* =================================== FILTRE DES MOIS =================================== */
+#labelFiltre{
+	font-family: "Quicksand";
+	display: block;
+	margin-bottom: 5px;
+}
+
+#filtreMois{
+	text-align: center;
+	width: 100%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#formFiltreSelect, #formFiltreOption{
+	display: inline-block;
+}
+#formFiltreOption{
+	text-align: right;
+	width: 40%;
+}
+#formFiltreSelect{
+	text-align: left;
+	width: 40%;
+}
+
+/* ====================================================================================== */
 /* ======================================= HEADER ======================================= */
 .header{
 	width: 100%;
@@ -223,6 +250,19 @@ a:hover{
 }
 .destinationMetaData p:first-child{
 	margin-right: 40px;
+}
+.destinationMetaData .dateDepart{
+	display: block;
+	width: 100%;
+	margin: 0 auto;
+	margin-bottom: 10px;
+	font-style: normal;
+	color: black;
+
+	border-top : 1px solid gray;
+	border-bottom : 1px solid gray;
+	background-color: rgba(236, 240, 241, 0.3);
+	padding: 5px;
 }
 
 .redirectWrapper{

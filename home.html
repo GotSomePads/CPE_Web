@@ -26,6 +26,27 @@
 		<a href="javascript:login()">Identifiez-vous</a>
 	</nav>
 
+	<div id="filtreMois">
+
+		<label id="labelFiltre">Filtre des annonces par mois</label>
+
+		<!-- option de filtre des mois -->
+		<form id="formFiltreOption">
+			<select id="filtreOption">
+				<option selected="selected">Postérieure à</option>
+				<option>Égale à</option>
+				<option>Antérieure à</option>
+			</select>
+		</form>
+
+		<!-- filtrage par mois des annonces disponibles -->
+		<form id="formFiltreSelect">
+			<select id="filtreSelect">
+				<option></option>
+			</select>
+		</form>
+	</div>
+
 	<!-- Cette <div> sera peuplée grâce au script de données codées en dur dans script.js -->
 	<article id="voyageContainer"></article>
 	

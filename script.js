@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', function()
 	// création du panier
 	initPanier();
 
+	// init filter's <select>
+	populateFiltrage();
+
 	// conteneur du DOM qui recevra les éléments créés dynamiquement
 	var DOMContainer = document.getElementById('voyageContainer');
 	if(!DOMContainer)
@@ -29,6 +32,10 @@ document.addEventListener('DOMContentLoaded', function()
 				var destinationMetaData = document.createElement('div');
 				destinationMetaData.classList.add('destinationMetaData');
 
+					var depart = document.createElement("p");
+					depart.classList +="dateDepart";
+					depart.innerHTML = dateArray[i].toLocaleDateString();
+
 					var duree = document.createElement('p');
 					var prix = document.createElement('p');
 					duree.innerHTML = dureeArray[i];
@@ -46,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function()
 			goToReservationButton.innerHTML = "Réserver";
 
 		descriptionVoyage.appendChild(description);
+		destinationMetaData.appendChild(depart);
 		destinationMetaData.appendChild(duree);
 		destinationMetaData.appendChild(prix);
 		voyageInformations.appendChild(destinationMetaData);
@@ -58,6 +66,65 @@ document.addEventListener('DOMContentLoaded', function()
 	}
 
 }, false);
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// @brief
+//  Dans la page home.html, cette fonction analyse l'ensemble des annonces disponibles et rempli le champs des filtres possibles des différents
+// mois disponibles, ordonnés dans l'ordre croissant
+function populateFiltrage()
+{
+	var DOMSelect = document.getElementById("filtreSelect");
+
+	// ajout de la valeur par défaut du <select>
+	var option = document.createElement("option");
+	option.value = "Date indifférente";
+	option.text = "Date indifférente";
+	DOMSelect.appendChild(option);
+	DOMSelect.selectedIndex = 1;
+
+	// récupération des différentes dates disponibles, en ne gardant que les mois
+	var availableDates = [];
+	for(var date of dateArray)
+	{
+		// if the date hasn't already been found, add it
+		var stringifiedDate = date.toLocaleDateString();
+		var addableDate = stringifiedDate.split("/")[0] + "/" + stringifiedDate.split("/")[2];
+		if(availableDates.indexOf(addableDate) == -1)
+			availableDates.push(addableDate);
+	}
+
+	// sort les mois par ordre croissant
+	availableDates.sort(function(a, b){
+		var monthA = toLiteral( a.split("/")[0] );
+		var monthB = toLiteral( b.split("/")[0] );
+
+		var monthWeight = { "Janvier": 0, "Février": 1, "Mars": 2, "Avril": 3, "Mai": 4, "Juin": 5, "Juillet": 6, "Août": 7, "Septembre": 8, "Octobre": 9, "Novembre": 10, "Décembre": 11 };
+    		return monthWeight[monthA] - monthWeight[monthB];
+	});
+
+	// ajout des options au DOM
+	for(var date of availableDates){
+		var option = document.createElement("option");
+		var month = toLiteral( date.split("/")[0] );
+		var year = date.split("/")[1];
+		option.value = month + " " + year;
+		option.text = month + " " + year;
+		DOMSelect.appendChild(option);
+	}
+}
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// @brief
+//  Transforme un mois de l'année exprimé par le chiffre 'n' allant de 1 à 12, en son équivalent en français
+function toLiteral(n){
+	switch(parseInt(n)){
+		case 1: return "Janvier";	case 4 : return "Avril";		case 7 : return "Juillet";		case 10 : return "Octobre";
+		case 2: return "Février";	case 5 : return "Mai";		case 8 : return "Août";			case 11 : return "Novembre";
+		case 3: return "Mars";		case 6 : return "Juin";		case 9 : return "Septembre";		case 12 : return "Décembre";
+	}
+}
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -91,7 +158,7 @@ function onclickPanier(event)
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // @brief
-// Ce récapitulatif d'un bloc positionné au-dessus de tout autre contenu, activé lors du clic et désactivé lors d'un nouveau clic
+// Crée le récapitulatif d'un bloc positionné au-dessus de tout autre contenu, activé lors du clic et désactivé lors d'un clic répété
 function createRecapitulatifPanier()
 {
 	var panierImg = document.getElementById("imgPanier");
@@ -132,8 +199,8 @@ function createRecapitulatifPanier()
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // @brief
-//  Crée un block affiché dans le récapitulatif des commandes, affichant les informations élémentaires d'un voyage commandé. Ce block comprend
-// une icône de suppression dudit block (c'est une image de poubelle)
+//  Crée un block affiché dans le récapitulatif des commandes (le panier), affichant les informations élémentaires d'un voyage commandé. 
+// Ce block comprend une icône de suppression dudit block (c'est une image de poubelle)
 // @note
 //  Informations affichées : destination, durée, prix, nbPersonnes
 function createRecapitulatifVoyageBlock(
