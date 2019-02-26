@@ -74,7 +74,6 @@ body{
 	height: 80px;
 	margin-top: 10px;
 	margin-left: 20px;
-
 	display: inline;
 }
 
@@ -306,7 +305,7 @@ a:hover{
 	margin-bottom: 20px;
 }
 
-.formInput .formLabel{
+label{
 	margin-right: 12px;
 }
 
@@ -318,6 +317,10 @@ a:hover{
 
 .redcolor{
 	color: red;
+}
+
+.greencolor{
+	color : greed;
 }
 
 ::placeholder{

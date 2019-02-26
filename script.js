@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function()
 
 }, false);
 
-
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // @brief
 //  Dans la page home.html, cette fonction analyse l'ensemble des annonces disponibles et rempli le champs des filtres possibles des différents
@@ -244,26 +243,17 @@ function createRecapitulatifVoyageBlock(
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Listen for click events
 // Permet d'activer ou de désactiver la visibilité du password dans le champ
-document.addEventListener('click', function (event)
-{
-	console.log("L'évènement est lancé");
-	var x = document.getElementById("user_password");
-	
-	if (x.type === "password" && event.target.name == "ShowPassword")
-	{
-		x.type = "text";
-	}
-	else if (x.type != "password" && event.target.name == "ShowPassword")
-	{
-	    x.type = "password";
-	}
-	else
-	{
-		console.log("Le bouton n'a pas été reconnu");
-	}
-}
-, false);
-
+document.addEventListener("DOMContentLoaded", function (event) {
+    var _selector = document.querySelector("#ShowPassword");
+    _selector.addEventListener('change', function (event) {
+    	var champ_password = document.getElementById("user_password");
+        if (_selector.checked) {
+            champ_password.type = "text";
+        } else {
+            champ_password.type = "password";
+        }
+    });
+});
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // @brief
@@ -336,12 +326,20 @@ function logchecker(login, mdp)
 	if (login_number != 3)//Si le login est dans la base
 	{
 		if (passwordArray[login_number] == mdp)//On vérifie que le mot de passe soit bon
-			document.getElementById("error_login").innerHTML = "Vous êtes maintenant identifié en tant que " + login + ".";
+			{
+				document.getElementById("error_login").classList = "greencolor";
+				document.getElementById("error_login").innerHTML = "Vous êtes maintenant identifié en tant que " + login + ".";
+			}
 		else
+
+		{
 			document.getElementById("error_login").innerHTML = "Votre mot de passe pour le nom d'utilisateur " + login + " n'est pas correct.";
+		}
 	}
 	else
+	{
 		document.getElementById("error_login").innerHTML = "Le nom d'utilisateur "+login+" n'existe pas.";
+	}
 }
 
 
@@ -349,7 +347,7 @@ function logchecker(login, mdp)
 // @brief
 // Permet de créer une fenêtre pop-up destinée au login
 function login(url, title, w, h){
-	popupwindow("login.html","Identifiez-vous !",900,500);
+	popupwindow("login.html","Identifiez-vous !",600,330);
 }
 
 
