@@ -162,21 +162,17 @@ function createRecapitulatifVoyageBlock(
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Listen for click events
 // Permet d'activer ou de désactiver la visibilité du password dans le champ
-document.getElementById(ShowPassword).addEventListener('click', function (event)
-{
-	var x = document.getElementById("user_password");
-	
-	if (x.type === "password")
-	{
-		x.type = "text";
-	}
-	else if (x.type === "text")
-	{
-	    x.type = "password";
-	}
-}
-, false);
-
+document.addEventListener("DOMContentLoaded", function (event) {
+    var _selector = document.querySelector("#ShowPassword");
+    _selector.addEventListener('change', function (event) {
+    	var champ_password = document.getElementById("user_password");
+        if (_selector.checked) {
+            champ_password.type = "text";
+        } else {
+            champ_password.type = "password";
+        }
+    });
+});
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // @brief
@@ -249,10 +245,15 @@ function logchecker(login, mdp)
 	if (login_number != 3)//Si le login est dans la base
 	{
 		if (passwordArray[login_number] == mdp)//On vérifie que le mot de passe soit bon
-			document.getElementById("error_login").classList = "greencolor";
-			document.getElementById("error_login").innerHTML = "Vous êtes maintenant identifié en tant que " + login + ".";
+			{
+				document.getElementById("error_login").classList = "greencolor";
+				document.getElementById("error_login").innerHTML = "Vous êtes maintenant identifié en tant que " + login + ".";
+			}
 		else
+
+		{
 			document.getElementById("error_login").innerHTML = "Votre mot de passe pour le nom d'utilisateur " + login + " n'est pas correct.";
+		}
 	}
 	else
 	{

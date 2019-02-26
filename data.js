@@ -5,7 +5,7 @@ var passwordArray = ["admin", "password", "12345"];
 // données brutes de remplissage de la page d'accueil
 var destinationArray = [
 	"Meulin", 
-	"Pierre Latte", 
+	"PierreLatte", 
 	"Lyon", 
 	"New York", 
 	"Brasilia", 
