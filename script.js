@@ -59,6 +59,28 @@ document.addEventListener('DOMContentLoaded', function()
 
 }, false);
 
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Listen for click events
+// Permet d'activer ou de désactiver la visibilité du password dans le champ
+document.addEventListener('click', function (event)
+{
+	console.log("L'évènement est lancé");
+	var x = document.getElementById("user_password");
+	
+	if (x.type === "password" && event.target.name == "ShowPassword")
+	{
+		x.type = "text";
+	}
+	else if (x.type != "password" && event.target.name == "ShowPassword")
+	{
+	    x.type = "password";
+	}
+	else
+	{
+		console.log("Le bouton n'a pas été reconnu");
+	}
+}
+, false);
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // @brief
