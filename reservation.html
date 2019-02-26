@@ -107,7 +107,7 @@
 		var nbAdultes = parseInt(document.getElementById('inputNbAdultes').value, 10);
 		var nbEnfants = parseInt(document.getElementById('inputNbEnfants').value, 10);
 		var index = destinationMap.get(reservationName);
-		nbPersonneReservationArray[index] = nbAdultes + nbEnfants;
+		localStorage.setItem("nbPersonneReservation#" + index, nbAdultes + nbEnfants); // sauvegarde de la data dans le localStorage
 
 		addElementToPanier(reservationName);
 	}

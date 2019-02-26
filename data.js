@@ -57,12 +57,3 @@ var descriptionArray = [
 	"Brasilia es una gran ciudad realmente es genial lo que espero veros muy, muy, muy, muy muchos y el traductor entenderá bien lo que yo digo que es genial porque es un performa.",
 	"Здесь должен происходить перевод? Я жду твоего ответа, и мои деньги, сердечно."
 ];
-
-var nbPersonneReservationArray = [
-	0, 
-	0, 
-	0, 
-	0, 
-	0, 
-	0
-];

@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function()
 
 }, false);
 
+
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Listen for click events
 // Permet d'activer ou de désactiver la visibilité du password dans le champ
@@ -66,15 +67,12 @@ document.addEventListener('click', function (event)
 {
 	var x = document.getElementById("user_password");
 	if (x.type === "password" && event.target.name == "ShowPassword")
-	{
 		x.type = "text";
-	}
 	else if (x.type != "password" && event.target.name == "ShowPassword")
-	{
 	    x.type = "password";
-	}
 }
 , false);
+
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // @brief
@@ -117,14 +115,13 @@ function createRecapitulatifPanier()
 	// adding content
 	var panier = localStorage.getItem('panier');
 	var indexes = panier.split("-");
-	console.log(nbPersonneReservationArray);
 	for(var i = 0 ; i < indexes.length ; i++){
 		var index = indexes[i];
 		if(index != ""){
 			recapitulatifPanier.appendChild(createRecapitulatifVoyageBlock(
 				destinationArray[index], // [in] nom de la destination
 				dureeArray[index], // [in] durée du séjour
-				nbPersonneReservationArray[index] + " personnes" // [in] nombre de personnes incluses dans le voyage
+				localStorage.getItem("nbPersonneReservation#" + index) + " personnes" // [in] nombre de personnes incluses dans le voyage
 			));
 		}	
 	}
