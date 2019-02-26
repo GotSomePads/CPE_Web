@@ -12,7 +12,7 @@
 <body>
 	<nav class="header">
 		<div class="logo">
-			<img src="mouette.png" id="photoMouette"/>
+			<img src="mouette.png" id="photoMouette" alt="Image d'une mouette"/>
 			<p id="nomAgence">Mouette Voyage</p>
 		</div>
 	</nav>
@@ -21,17 +21,20 @@
 		<h1 id='reservationName'>Identifiez-vous, programme.</h1>
 		<form method="post" id="reservationForm" onsubmit="logchecker(document.getElementsByName('user_login')[0].value,document.getElementsByName('user_password')[0].value);return false;">
 			<div class="formInput">
-				<span class="formLabel">Login</span>
-				<input type="text" name="user_login" />
+				<label for="user_login">Login :</label>
+				<input type="text" name="user_login" id="user_login"/>
 			</div>
 			<p></p>
 			<div class="formInput">
-				<span class="formLabel">Password</span>
+				<label for="user_password">Mot de passe :</label>
 				<input type="password" name="user_password" id="user_password"/>
-			<p></p>
-			Montrer le mot de passe
-			<input type="checkbox" name="ShowPassword">
 			</div>
+			<div>
+				<label for="ShowPassword">Montrer le mot de passe :</label>
+				<input type="checkbox" name="ShowPassword" id="ShowPassword">
+			</div>
+			
+			
 			<input type="submit" value="S'identifier">
 			<p id="error_login" class="redcolor"></p>
 
