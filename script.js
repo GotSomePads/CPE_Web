@@ -249,12 +249,15 @@ function logchecker(login, mdp)
 	if (login_number != 3)//Si le login est dans la base
 	{
 		if (passwordArray[login_number] == mdp)//On vérifie que le mot de passe soit bon
+			document.getElementById("error_login").classList = "greencolor";
 			document.getElementById("error_login").innerHTML = "Vous êtes maintenant identifié en tant que " + login + ".";
 		else
 			document.getElementById("error_login").innerHTML = "Votre mot de passe pour le nom d'utilisateur " + login + " n'est pas correct.";
 	}
 	else
+	{
 		document.getElementById("error_login").innerHTML = "Le nom d'utilisateur "+login+" n'existe pas.";
+	}
 }
 
 
