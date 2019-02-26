@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="FR">
+<head>
+	<meta charset="utf-8">
+	<title>Réservation</title>
+	<meta name="description" content="Page d'accueil">
+	<meta name="author" content="Tom&Augustin">
+	<link rel="stylesheet" href="style.css">
+	<script src="data.js"></script>
+	<script src="script.js"></script>
+</head>
+
+<body>
+
+	<nav class="header">
+		<div class="logo">
+			<img src="img/mouette.png" id="photoMouette"/>
+			<p id="nomAgence">Mouette Voyage</p>
+		</div>
+
+		<a href="home.html">Accueil</a>
+		<a href="aPropos.html">À Propos</a>
+	</nav>
+
+	<article class="reservationContainer">
+		<h1 id='reservationName'>Réservation pour</h1>
+
+		<p id='errorMessage'></p>
+
+		<form id="reservationForm" onSubmit="return onFormSubmit()" action="recapitulatifReservation.html">
+			<div class="formInput">
+				<span class="formLabel">Nom</span>
+				<input type="text" name="nom" id="inputNom" placeholder="Votre nom" require>
+			</div>
+
+			<div class="formInput">
+				<span class="formLabel">Prénom</span>
+				<input type="text" name="prenom" id="inputPrenom" placeholder="Votre prénom" require>
+			</div>
+
+			<div class="formInput">
+				<span class="formLabel">Mail</span>
+				<input type="text" name="mail" id="inputMail" placeholder="ex: poussin@alcatel.com" require>
+			</div>
+
+			<div class="formInput">
+				<span class="formLabel">Téléphone</span>
+				<input type="number" name="telephone" id="inputTelephone" placeholder="06 11 22 33 44">
+			</div>
+
+			<div class="formInput">
+				<span class="formLabel">Date de départ</span>
+				<input type="date" name="dateDepart" id="inputDateDepart" require>
+			</div>
+
+			<div class="formInput">
+				<span class="formLabel">Date de retour</span>
+				<input type="date" name="dateRetour" id="inputDateRetour" require>
+			</div>
+
+			<div class="formInput">
+				<span class="formLabel">Nombre d'adultes</span>
+				<input type="number" name="nbAdultes" id="inputNbAdultes" value="1" min="0" require>
+			</div>
+
+			<div class="formInput">
+				<span class="formLabel">Nombre d'enfants (-12 ans)</span>
+				<input type="number" name="nbEnfants" id="inputNbEnfants" value="0" min="0" require>
+			</div>
+
+			<div class="formInput">
+				<span class="formLabel">Petit-déjeuner ?</span>
+				<input type="checkbox" name="petitDejeuner" id="inputPetitDejeniche">
+			</div>
+
+			<div class="formInput">
+				<span class="formLabel">Demande de renseignement</span>
+				<textarea type="text" name="renseignement" id="inputRenseignement" placeholder="Vos questions éventuelles..."></textarea>
+			</div>
+
+			<div class="formInput">
+				<span class="formLabel">Prix :</span>
+				<span id='prixDisplayer'>0.00 €</span>
+			</div>
+
+			<input type="submit" value="Réserver">
+			<input type='reset' value='Tout effacer' name='reset' onclick="return eraseInputs();">
+		</form>
+	</article>
+	
+	<footer>
+		<p class="footerText">Réalisé en Février 2019 par une team de 2 composée de Tom Blanchet et Augustin Bar</p>
+	</footer>
+
+</body>
+
+<script type='text/javascript'>
+
+	var reservationName = ""; // je stock cette variable ici afin d'y accéder par la suite dans onReservationClick( )
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+	// @brief
+	//  Fonction appelée lors du click sur le bouton 'Submit' du formulaire : ajout de la commande au panier
+	onFormSubmit = function(){
+		addElementToPanier(reservationName);
+	}
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+	// @brief
+	//  Remet à leur valeur d'origine l'ensemble des <input> de la page reservation.html
+	// @note
+	//  Le return false permet de ne pas rediriger vers une autre page lors du clique sur le bouton
+	eraseInputs = function()
+	{
+		document.getElementById("inputNom").value = "";
+		document.getElementById("inputPrenom").value = "";
+		document.getElementById("inputMail").value = "";
+		document.getElementById("inputTelephone").value = "";
+		document.getElementById("inputDateDepart").value = "";
+		document.getElementById("inputDateRetour").value = "";
+		document.getElementById("inputNbAdultes").value = "";
+		document.getElementById("inputNbEnfants").value = "";
+		document.getElementById("inputPetitDejeuner").checked = false;
+		document.getElementById("inputRenseignement").value = "";
+		document.getElementById("inputRenseignement").value = "";
+		document.getElementById('prixDisplayer').innerHTML = parseInt(URLParams[1][1], 10);
+
+		return false;
+	}
+
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+	// @brief
+	//  Vérifie si les données entrées par l'utilisateur sont conformes au cahier des charges
+	checkDataIntegrity = function()
+	{
+		// 1) date de retour doit être supérieure à la date de départ
+		var depart = document.getElementById('inputDateDepart').value;
+		var retour = document.getElementById('inputDateRetour').value;
+		var isDateOk = true;
+		if(depart != "" && retour != "")
+			isDateOk = retour - depart >= 0;
+
+		// 2) les enfants ne peuvent voyager sans parents
+		var adultes = document.getElementById('inputNbAdultes').value;
+		var enfants = document.getElementById('inputNbEnfants').value;
+		var isEnfantOk = true;
+		if(enfants >= 1 && adultes == 0)
+			isEnfantOk = false;
+
+		return isDateOk && isEnfantOk;
+	}
+
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+	// @brief
+	//  Recalcule le prix total de la réservation en prenant en compte les valeurs des différents <input> de la page ainsi que les
+	// données relatives à la réservation effectuée (par exemple le prix initial)
+	processPrice = function()
+	{
+		var isDataOk = checkDataIntegrity();
+		if( !isDataOk ){
+			displayErrorMessage("Les données ne sont pas recevables");
+			return;
+		}else
+			hideErrorMessage();
+
+		var prixTotal = 0;
+		var prixVoyage = parseInt(URLParams[1][1], 10);
+		var nbAdultes = parseInt(document.getElementById('inputNbAdultes').value, 10);
+		var nbEnfants = parseInt(document.getElementById('inputNbEnfants').value, 10);
+		var isPetitDejeunerNeeded = document.getElementById('inputPetitDejeniche').checked;
+
+		// le prix dépend premièrement du nombre de jours
+		var nbJours = 0;
+		/*
+		var depart = parseInt(document.getElementById('inputDateDepart').value, 10);
+		var retour = parseInt(document.getElementById('inputDateRetour').value, 10);
+		nbJours = retour - depart;
+		if(nbJours == 0 || depart == "" || retour == "")
+			nbJours = 1;
+		prixTotal = nbJours * prixVoyage;
+		*/
+
+		// il dépend également du nombre de participants ; un enfant coûte 40% moins cher
+		prixTotal += nbAdultes * prixVoyage + nbEnfants *prixVoyage * 0.4;
+
+		// petit déjeuner coûte 8€ par personne et par jour
+		if(isPetitDejeunerNeeded)
+			prixTotal += 8 * (nbAdultes + nbEnfants + nbJours);
+
+		document.getElementById('prixDisplayer').innerHTML = prixTotal + '€';
+	}
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+	//              				     Code exécuté au chargement de cette page
+	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	hideErrorMessage();
+
+	// ajout de listeners sur chaque <input>
+	document.getElementById("inputPetitDejeniche").addEventListener('change', processPrice);
+	var inputs = document.getElementsByTagName('input');
+	for(var i = 0 ; i < inputs.length ; i++)
+		inputs[i].addEventListener('input', processPrice);
+
+	// chargement des paramètres passés dans l'URL - travaillant sous Safari, je n'ai pas accès à URLSearchParams.entries()
+	var URL = window.location.href.replace(/%20/g," ");
+	var URLParams = URL.substring(URL.indexOf('?') + 1, URL.length).split('&');
+
+	for(var i = 0 ; i < URLParams.length ; i++)
+		URLParams[i] = URLParams[i].split('=');
+
+	// attribution du nom de la réservation
+	reservationName = URLParams[0][1];
+	document.getElementById('reservationName').innerHTML += ' ' + reservationName;
+
+	// On lance une première fois le calcul du prix total
+	processPrice();
+
+</script>
+
+</html>
