@@ -59,21 +59,6 @@ document.addEventListener('DOMContentLoaded', function()
 
 }, false);
 
-
-// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// Listen for click events
-// Permet d'activer ou de désactiver la visibilité du password dans le champ
-document.addEventListener('click', function (event)
-{
-	var x = document.getElementById("user_password");
-	if (x.type === "password" && event.target.name == "ShowPassword")
-		x.type = "text";
-	else if (x.type != "password" && event.target.name == "ShowPassword")
-	    x.type = "password";
-}
-, false);
-
-
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // @brief
 //  Fonction appelée lors du clic sur l'icône de panier : elle crée un récapitulatif de commande sous l'icône de panier, permettant de visualiser
@@ -177,22 +162,17 @@ function createRecapitulatifVoyageBlock(
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Listen for click events
 // Permet d'activer ou de désactiver la visibilité du password dans le champ
-document.addEventListener('click', function (event)
+document.getElementById(ShowPassword).addEventListener('click', function (event)
 {
-	console.log("L'évènement est lancé");
 	var x = document.getElementById("user_password");
 	
-	if (x.type === "password" && event.target.name == "ShowPassword")
+	if (x.type === "password")
 	{
 		x.type = "text";
 	}
-	else if (x.type != "password" && event.target.name == "ShowPassword")
+	else if (x.type === "text")
 	{
 	    x.type = "password";
-	}
-	else
-	{
-		console.log("Le bouton n'a pas été reconnu");
 	}
 }
 , false);
@@ -282,7 +262,7 @@ function logchecker(login, mdp)
 // @brief
 // Permet de créer une fenêtre pop-up destinée au login
 function login(url, title, w, h){
-	popupwindow("login.html","Identifiez-vous !",900,500);
+	popupwindow("login.html","Identifiez-vous !",600,330);
 }
 
 
