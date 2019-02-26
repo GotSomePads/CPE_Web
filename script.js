@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function()
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // @brief
 //  Fonction appelée lors du clic sur l'icône de panier : elle crée un récapitulatif de commande sous l'icône de panier, permettant de visualiser
-// les éléments désirés, mais aussi de les supprimer ou bien de modifier leur quantité (WIP)
+// les éléments désirés, mais aussi de les supprimer ou bien de modifier leur quantité
 function onclickPanier(event)
 {
 	// si le récapitulatif est déjà affiché, on le supprime... Sinon, on l'ajoute !
@@ -100,13 +100,17 @@ function createRecapitulatifPanier()
 
 	// adding content
 	var panier = localStorage.getItem('panier');
-	for(var i = 0 ; i < panier.length ; i++){
-		var index = panier[i];
-		recapitulatifPanier.appendChild(createRecapitulatifVoyageBlock(
-			destinationArray[index].toUpperCase(), // [in] nom de la destination
-			dureeArray[index], // [in] durée du séjour
-			nbPersonneReservationArray[index] // [in] nombre de personnes incluses dans le voyage
-		));
+	var indexes = panier.split("-");
+	console.log(nbPersonneReservationArray);
+	for(var i = 0 ; i < indexes.length ; i++){
+		var index = indexes[i];
+		if(index != ""){
+			recapitulatifPanier.appendChild(createRecapitulatifVoyageBlock(
+				destinationArray[index], // [in] nom de la destination
+				dureeArray[index], // [in] durée du séjour
+				nbPersonneReservationArray[index] + " personnes" // [in] nombre de personnes incluses dans le voyage
+			));
+		}	
 	}
 
 	return recapitulatifPanier;
@@ -145,6 +149,7 @@ function createRecapitulatifVoyageBlock(
 	poubelle.classList.add("imgPoubelle");
 	poubelle.src = "img/poubelle.png";
 	poubelle.addEventListener("click", function(){ // onclick = remove the whole block
+		removeElementFromPanier(dest);
 		this.parentNode.remove();
 	});
 
@@ -161,20 +166,28 @@ function createRecapitulatifVoyageBlock(
 // @brief
 //  Initialise le panier
 function initPanier(){
+	//localStorage.setItem("panier", "");
 	var panier = localStorage.getItem('panier');
-	if(panier === null){
-		var panier = [];
-		localStorage.setItem('panier', panier);
-	}
+	if(panier == null || panier.length === 0)
+		localStorage.setItem('panier', "");
 }
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // @brief
 //  Sauvegarde une nouvelle réservation dans le panier de façon durable, grâce au local storage
+// @note
+//  Les index sont stockés de telle façon que chaque index est séparé par un tiret. Par exemple : "3-1-2"
 function addElementToPanier(element){
 	var panier = localStorage.getItem('panier');
-	panier.push(element);
+	var index = destinationMap.get(element);
+
+	// on n'ajoute un tiret que si il y a déjà des index. Sinon, simplement l'index :-)
+	if(panier.length === 0)
+		panier += index;
+	else
+		panier += "-" + index;
+
 	localStorage.setItem('panier', panier);
 }
 
@@ -186,9 +199,17 @@ function addElementToPanier(element){
 //  'element' doit être le nom de la destination à supprimer
 function removeElementFromPanier(element){
 	var panier = localStorage.getItem('panier');
-	var index = destinationMap.get(element);
-	panier.remove(index);
-	localStorage.setItem('panier', panier);
+	var indexToRemove = destinationMap.get(element);
+
+	var reconstructedPanier = "";
+	for(var index of panier.split("-")){
+		if(index != indexToRemove)
+			reconstructedPanier += index + "-"; 
+	}
+
+	// suppression du dernier tiret
+	reconstructedPanier = reconstructedPanier.substring(0, reconstructedPanier.length - 1);
+	localStorage.setItem('panier', reconstructedPanier);
 }
 
 
