@@ -14,12 +14,13 @@
 
 	<nav class="header">
 		<div class="logo">
-			<img src="img/mouette.png" id="photoMouette"/>
+			<img src="mouette.png" id="photoMouette" alt="Image d'une mouette"/>
 			<p id="nomAgence">Mouette Voyage</p>
 		</div>
 
 		<a href="home.html">Accueil</a>
 		<a href="aPropos.html">À Propos</a>
+		<a href="javascript:login()">Identifiez-vous</a>
 	</nav>
 
 	<article class="reservationContainer">
@@ -29,52 +30,52 @@
 
 		<form id="reservationForm" onSubmit="return onFormSubmit()" action="recapitulatifReservation.html">
 			<div class="formInput">
-				<span class="formLabel">Nom</span>
+				<label for="inputNom">Votre nom :</label>
 				<input type="text" name="nom" id="inputNom" placeholder="Votre nom" require>
 			</div>
 
 			<div class="formInput">
-				<span class="formLabel">Prénom</span>
+				<label for="inputPrenom">Votre prénom :</label>
 				<input type="text" name="prenom" id="inputPrenom" placeholder="Votre prénom" require>
 			</div>
 
 			<div class="formInput">
-				<span class="formLabel">Mail</span>
+				<label for="inputMail">Votre mail :</label>
 				<input type="text" name="mail" id="inputMail" placeholder="ex: poussin@alcatel.com" require>
 			</div>
 
 			<div class="formInput">
-				<span class="formLabel">Téléphone</span>
+				<label for="inputTelephone">Votre n° de tel :</label>
 				<input type="number" name="telephone" id="inputTelephone" placeholder="06 11 22 33 44">
 			</div>
 
 			<div class="formInput">
-				<span class="formLabel">Date de départ</span>
+				<label for="inputDateDepart">Date de départ :</label>
 				<input type="date" name="dateDepart" id="inputDateDepart" require>
 			</div>
 
 			<div class="formInput">
-				<span class="formLabel">Date de retour</span>
+				<label for="inputDateRetour">Date de retour :</label>
 				<input type="date" name="dateRetour" id="inputDateRetour" require>
 			</div>
 
 			<div class="formInput">
-				<span class="formLabel">Nombre d'adultes</span>
+				<label for="inputNbAdultes">Nombre d'adultes :</label>
 				<input type="number" name="nbAdultes" id="inputNbAdultes" value="1" min="0" require>
 			</div>
 
 			<div class="formInput">
-				<span class="formLabel">Nombre d'enfants (-12 ans)</span>
+				<label for="inputNbEnfants">Nombre d'enfants (-12 ans) :</label>
 				<input type="number" name="nbEnfants" id="inputNbEnfants" value="0" min="0" require>
 			</div>
 
 			<div class="formInput">
-				<span class="formLabel">Petit-déjeuner ?</span>
+				<label for="inputPetitDejeniche">Petit déjeuner ?</label>
 				<input type="checkbox" name="petitDejeuner" id="inputPetitDejeniche">
 			</div>
 
 			<div class="formInput">
-				<span class="formLabel">Demande de renseignement</span>
+				<label for="inputRenseignement">Demande de renseignements</label>
 				<textarea type="text" name="renseignement" id="inputRenseignement" placeholder="Vos questions éventuelles..."></textarea>
 			</div>
 
@@ -84,7 +85,8 @@
 			</div>
 
 			<input type="submit" value="Réserver">
-			<input type='reset' value='Tout effacer' name='reset' onclick="return eraseInputs();">
+			<label for="EraseAll"> </label>
+			<input type='reset' value='Tout effacer' name='reset' onclick="return eraseInputs();" id="EraseAll">
 		</form>
 	</article>
 	
