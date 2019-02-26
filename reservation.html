@@ -101,7 +101,14 @@
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 	// @brief
 	//  Fonction appelée lors du click sur le bouton 'Submit' du formulaire : ajout de la commande au panier
-	onFormSubmit = function(){
+	onFormSubmit = function()
+	{
+		// save number of participants to the trip
+		var nbAdultes = parseInt(document.getElementById('inputNbAdultes').value, 10);
+		var nbEnfants = parseInt(document.getElementById('inputNbEnfants').value, 10);
+		var index = destinationMap.get(reservationName);
+		nbPersonneReservationArray[index] = nbAdultes + nbEnfants;
+
 		addElementToPanier(reservationName);
 	}
 

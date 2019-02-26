@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function()
 {
-	if(typeof panierArray === "undefined");
-		panierArray = [];
+	// création du panier
+	initPanier();
 
 	// conteneur du DOM qui recevra les éléments créés dynamiquement
 	var DOMContainer = document.getElementById('voyageContainer');
@@ -97,15 +97,15 @@ function createRecapitulatifPanier()
 	// positioning 
 	recapitulatifPanier.style.top = panierImgBoundingRect.bottom + 20 + "px";
 	recapitulatifPanier.style.right = window.innerWidth - (panierImgBoundingRect.right + panierImg.offsetWidth) + "px";
-	console.log(panierImgBoundingRect.right);
 
 	// adding content
-	for(var i = 0 ; i < panierArray.length ; i++){
-		var index = panierArray[i];
+	var panier = localStorage.getItem('panier');
+	for(var i = 0 ; i < panier.length ; i++){
+		var index = panier[i];
 		recapitulatifPanier.appendChild(createRecapitulatifVoyageBlock(
 			destinationArray[index].toUpperCase(), // [in] nom de la destination
 			dureeArray[index], // [in] durée du séjour
-			3 // [in] nombre de personnes incluses dans le voyage
+			nbPersonneReservationArray[index] // [in] nombre de personnes incluses dans le voyage
 		));
 	}
 
@@ -159,6 +159,18 @@ function createRecapitulatifVoyageBlock(
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // @brief
+//  Initialise le panier
+function initPanier(){
+	var panier = localStorage.getItem('panier');
+	if(panier === null){
+		var panier = [];
+		localStorage.setItem('panier', panier);
+	}
+}
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// @brief
 //  Sauvegarde une nouvelle réservation dans le panier de façon durable, grâce au local storage
 function addElementToPanier(element){
 	var panier = localStorage.getItem('panier');
@@ -179,44 +191,33 @@ function removeElementFromPanier(element){
 	localStorage.setItem('panier', panier);
 }
 
-var loginArray = ["admin", "guest", "test"];
-var passwordArray = ["admin", "password", "12345"];
+
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // @brief
-// Permet de vérifier si l'utilisateur a rentré de bons mots de passe/login et de l'identifier (virtuellement). La fonction va renvoyer 0 si le login n'est pas dans la base de donnée, 1 si le mot de passe est faux et 2 si l'utilisateur est log correctement.
+//  Permet de vérifier si l'utilisateur a rentré de bons mots de passe/login et de l'identifier (virtuellement). 
+// La fonction va renvoyer 0 si le login n'est pas dans la base de donnée, 1 si le mot de passe est faux et 2 si l'utilisateur est log correctement.
 function logchecker(login, mdp)
 {
-    console.log("fonction lancée");
-    console.log(login);
-    var login_number=3;
-    var i = 0;
-    while (i<3)//Cette boucle permet de voir si le login est dans la base de donnée
-    {
-        if (login==loginArray[i])
-        {
-            login_number=i;
-        }
-        i = i+1;
-    }
-    console.log(login_number);
-    if (login_number != 3)//Si le login est dans la base
-    {
-        if (passwordArray[login_number] == mdp)//On vérifie que le mot de passe soit bon
-        {
-            document.getElementById("error_login").innerHTML = "Vous êtes maintenant identifié en tant que "+login+".";
-            console.log("identifié");
-        }
-        else
-        {
-            document.getElementById("error_login").innerHTML = "Votre mot de passe pour le nom d'utilisateur "+login+" n'est pas correct.";
-            console.log("mdp incorrect");
-        }
-    }
-    else
-    {
-        document.getElementById("error_login").innerHTML = "Le nom d'utilisateur "+login+" n'existe pas.";
-        console.log("Mauvais login");
-    }
+	var login_number = 3;
+	var i = 0;
+
+	// Cette boucle permet de voir si le login est dans la base de donnée
+	while (i < 3){
+		if (login == loginArray[i])
+			login_number = i;
+
+		i++;
+	}
+
+	if (login_number != 3)//Si le login est dans la base
+	{
+		if (passwordArray[login_number] == mdp)//On vérifie que le mot de passe soit bon
+			document.getElementById("error_login").innerHTML = "Vous êtes maintenant identifié en tant que " + login + ".";
+		else
+			document.getElementById("error_login").innerHTML = "Votre mot de passe pour le nom d'utilisateur " + login + " n'est pas correct.";
+	}
+	else
+		document.getElementById("error_login").innerHTML = "Le nom d'utilisateur "+login+" n'existe pas.";
 }
 
 

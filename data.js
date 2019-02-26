@@ -1,3 +1,7 @@
+// Données de login factices
+var loginArray = ["admin", "guest", "test"];
+var passwordArray = ["admin", "password", "12345"];
+
 // données brutes de remplissage de la page d'accueil
 var destinationArray = [
 	"Meulin", 
@@ -52,4 +56,13 @@ var descriptionArray = [
 	"New York c'est très beau et c'est très grand et puis il y a un parc gigantesque ça va être super je vous en prie n'hésitez pas à vous joindre à notre super team pour un... SUPER voyage !",
 	"Brasilia es una gran ciudad realmente es genial lo que espero veros muy, muy, muy, muy muchos y el traductor entenderá bien lo que yo digo que es genial porque es un performa.",
 	"Здесь должен происходить перевод? Я жду твоего ответа, и мои деньги, сердечно."
+];
+
+var nbPersonneReservationArray = [
+	0, 
+	0, 
+	0, 
+	0, 
+	0, 
+	0
 ];
